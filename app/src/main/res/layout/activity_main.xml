@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/_28dp"
-        android:text="OICAR"
+        android:text="OICAR cmz"
         android:textStyle="bold"
         android:drawablePadding="@dimen/_5dp"
         android:textColor="@color/pink"
