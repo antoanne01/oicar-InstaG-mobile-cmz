@@ -3,6 +3,7 @@ package com.ac.ktandroidapps.oicar_instag_mobile_cmz
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.ac.ktandroidapps.oicar_instag_mobile_cmz.databinding.ActivitySignUpBinding
@@ -14,6 +15,7 @@ import com.ac.ktandroidapps.oicar_instag_mobile_cmz.model.User
 import com.ac.ktandroidapps.oicar_instag_mobile_cmz.utils.USER_PROFILE_FOLDER
 import com.ac.ktandroidapps.oicar_instag_mobile_cmz.utils.uploadImage
 import com.google.firebase.auth.FirebaseAuth
+import org.mindrot.jbcrypt.BCrypt
 
 class SignUpActivity : AppCompatActivity() {
 
@@ -42,6 +44,7 @@ class SignUpActivity : AppCompatActivity() {
         user = User()
 
         binding.btnRegister.setOnClickListener {
+
             val username = binding.tvUsername.text.toString()
             val email = binding.tvEmail.text.toString()
             val password = binding.tvPassword.text.toString()
@@ -64,31 +67,39 @@ class SignUpActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
             else{
-                FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener {
-                        result ->
-                        if(result.isSuccessful){
-                            Toast.makeText(this@SignUpActivity,
-                                "Successfull registration", Toast.LENGTH_SHORT).show()
+                val salt = BCrypt.gensalt()
+                val passwordHash = BCrypt.hashpw(password, salt)
 
-                            user.name = username
-                            user.email = email
-                            user.password = password
+                val tempPassword = password
 
-                            // bellow is option without password
-                            //val user = User(username, email)
+                try {
+                    FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, tempPassword)
+                        .addOnCompleteListener {
+                                result ->
+                            if(result.isSuccessful){
+                                Toast.makeText(this@SignUpActivity,
+                                    "Successfull registration", Toast.LENGTH_SHORT).show()
 
-                            Firebase.firestore.collection(USER_NODE)
-                                .document(Firebase.auth.currentUser!!.uid).set(user)
-                                .addOnSuccessListener {
-                                    startActivity(Intent(this@SignUpActivity, HomeActivity::class.java))
-                                    finish()
-                                }
+                                user.name = username
+                                user.email = email
+                                user.passwordHash = passwordHash
+
+                                Firebase.firestore.collection(USER_NODE)
+                                    .document(Firebase.auth.currentUser!!.uid).set(user)
+                                    .addOnSuccessListener {
+                                        startActivity(Intent(this@SignUpActivity, HomeActivity::class.java))
+                                        finish()
+                                    }
+                            }
+                            else{
+                                Toast.makeText(this@SignUpActivity, "Registration failed", Toast.LENGTH_SHORT).show()
+                            }
                         }
-                        else{
-                            Toast.makeText(this@SignUpActivity, "Registration failed", Toast.LENGTH_SHORT).show()
-                        }
-                    }
+                }
+                catch(e : Exception){
+                    Log.e("SignUpError", "Registration failed: ", e)
+                }
+
             }
         }
 
