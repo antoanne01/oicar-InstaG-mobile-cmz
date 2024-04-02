@@ -13,10 +13,17 @@
         android:theme="@style/Theme.OicarInstaGmobilecmz"
         tools:targetApi="31">
         <activity
-            android:name=".LoginActivity"
+            android:name=".Post.ReelsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Post.PostActivity"
             android:exported="false" />
         <activity
             android:name=".HomeActivity"
+            android:exported="false"
+            android:label="@string/title_activity_home" />
+        <activity
+            android:name=".LoginActivity"
             android:exported="false" />
         <activity
             android:name=".SignUpActivity"
