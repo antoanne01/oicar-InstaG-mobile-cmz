@@ -15,9 +15,10 @@ class MainActivity : AppCompatActivity() {
         Handler(Looper.getMainLooper()).postDelayed({
             if(FirebaseAuth.getInstance().currentUser == null){
                 startActivity(Intent(this, SignUpActivity::class.java))
+                finish()
             }
             else{
-                startActivity(Intent(this, SignUpActivity::class.java))
+                startActivity(Intent(this, HomeActivity::class.java))
                 finish()
             }
         }, 2000)
