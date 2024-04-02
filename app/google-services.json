@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "368450120414",
+    "project_id": "oicar---instagram",
+    "storage_bucket": "oicar---instagram.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:368450120414:android:33486e43130d53c706304f",
+        "android_client_info": {
+          "package_name": "com.ac.ktandroidapps.oicar_instag_mobile_cmz"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWfoOnG7xvTgLYX869FllOOU8zrbn3ENg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
