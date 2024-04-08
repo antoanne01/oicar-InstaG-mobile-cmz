@@ -7,4 +7,10 @@
     <dimen name="_28dp">28dp</dimen>
     <dimen name="_6dp">6dp</dimen>
     <dimen name="_0dp">0dp</dimen>
+    <dimen name="_101dp">101dp</dimen>
+    <dimen name="_32dp">32dp</dimen>
+    <dimen name="_100dp">100dp</dimen>
+    <dimen name="_10dp">10dp</dimen>
+    <dimen name="_20sp">20sp</dimen>
+    <dimen name="_16sp">16sp</dimen>
 </resources>
