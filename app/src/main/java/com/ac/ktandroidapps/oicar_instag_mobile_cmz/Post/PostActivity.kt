@@ -1,5 +1,6 @@
 package com.ac.ktandroidapps.oicar_instag_mobile_cmz.Post
 
+import android.app.AlertDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -16,6 +17,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.toObject
+import com.squareup.picasso.Picasso
 
 class PostActivity : AppCompatActivity() {
 
@@ -48,6 +50,15 @@ class PostActivity : AppCompatActivity() {
             finish()
         }
 
+        val postUrl = intent.getStringExtra("postUrl")
+        val caption = intent.getStringExtra("caption")
+        val documentId = intent.getStringExtra("documentId")
+
+        if (postUrl != null) {
+            Picasso.get().load(postUrl).into(binding.ivSelectImage)
+        }
+        binding.tvCaption.setText(caption)
+
         binding.ivSelectImage.setOnClickListener {
             launcher.launch("image/*")
         }
@@ -60,29 +71,77 @@ class PostActivity : AppCompatActivity() {
         binding.btnPost.setOnClickListener {
 
             val userId = Firebase.auth.currentUser?.uid
-            if(userId != null){
-                Firebase.firestore.collection(USER_NODE).document(userId).get().addOnSuccessListener {
-                    val user = it.toObject<User>()
-                    if(user != null){
-                        val post = Post(
-                            postUrl = imageUrl,
-                            caption = binding.tvCaption.text.toString(),
-                            uid = userId,
-                            time = System.currentTimeMillis().toString(),
-                            user = user)
+            Firebase.firestore.collection(USER_NODE).document(userId!!).get().addOnSuccessListener {document ->
+                val user = document.toObject<User>()
+                val captionText = binding.tvCaption.text.toString()
 
-                        val postId = Firebase.firestore.collection(POST).document().id
-
-                        Firebase.firestore.collection(POST).document(postId).set(post).addOnSuccessListener {
-                            Firebase.firestore.collection(USER_NODE).document(userId)
-                                .collection("Post").document(postId).set(post).addOnSuccessListener {
-                                    startActivity(Intent(this@PostActivity, HomeActivity::class.java))
-                                    finish()
-                                }
+            if(postUrl == null && documentId == null){
+                val postId = Firebase.firestore.collection(POST).document().id
+                val post = Post(
+                    postUrl = imageUrl,
+                    caption = captionText,
+                    uid = userId,
+                    time = System.currentTimeMillis().toString(),
+                    user = user,
+                    documentId = postId
+                )
+                Firebase.firestore.collection(POST).document(postId).set(post).addOnSuccessListener {
+                    Firebase.firestore.collection(USER_NODE).document(userId)
+                        .collection("Post").document(postId).set(post).addOnSuccessListener {
+                            startActivity(Intent(this@PostActivity, HomeActivity::class.java))
+                            finish()
                         }
                     }
                 }
+                else{
+                val existingPostId = documentId ?: return@addOnSuccessListener
+                val updateData = mapOf(
+                    "postUrl" to (imageUrl ?: postUrl),
+                    "caption" to captionText
+                    )
+
+                Firebase.firestore.collection(POST).document(existingPostId).update(updateData).addOnSuccessListener {
+                    Firebase.firestore.collection(USER_NODE).document(userId)
+                        .collection("Post").document(existingPostId).update(updateData).addOnSuccessListener {
+                            startActivity(Intent(this@PostActivity, HomeActivity::class.java))
+                            finish()
+                        }
+                }
+                }
+            }
+        }
+
+        binding.btnDelete.setOnClickListener {
+            if(postUrl == null && documentId == null){
+                return@setOnClickListener
+            }
+            else{
+
+                AlertDialog.Builder(this)
+                    .setTitle("Confirm Deletion")
+                    .setMessage("Are you sure you want to delete post? This action cannot be undone.")
+                    .setPositiveButton("Yes") { dialog, which ->
+                        deletePost(documentId)
+                    }
+                    .setNegativeButton("No") { dialog, which ->
+                        dialog.dismiss()
+                    }
+                    .show()
+
+
             }
         }
     }
+
+    private fun deletePost(documentId: String?) {
+        Firebase.firestore.collection(POST).document(documentId!!).delete().addOnSuccessListener {
+            Firebase.firestore.collection(USER_NODE).document(Firebase.auth.currentUser!!.uid)
+                .collection("Post").document(documentId).delete().addOnSuccessListener {
+                    startActivity(Intent(this@PostActivity, HomeActivity::class.java))
+                    finish()
+                }
+        }
+    }
+
+
 }

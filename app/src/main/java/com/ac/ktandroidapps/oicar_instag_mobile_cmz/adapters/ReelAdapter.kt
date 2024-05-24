@@ -1,6 +1,7 @@
 package com.ac.ktandroidapps.oicar_instag_mobile_cmz.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ac.ktandroidapps.oicar_instag_mobile_cmz.R
 import com.ac.ktandroidapps.oicar_instag_mobile_cmz.databinding.ReelDesignBinding
 import com.ac.ktandroidapps.oicar_instag_mobile_cmz.model.Reel
+import com.ac.ktandroidapps.oicar_instag_mobile_cmz.model.User
+import com.ac.ktandroidapps.oicar_instag_mobile_cmz.utils.USER_NODE
+import com.bumptech.glide.Glide
+import com.github.marlonlom.utilities.timeago.TimeAgo
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.firestore
+import com.google.firebase.firestore.toObject
 import com.squareup.picasso.Picasso
 
 class ReelAdapter(val context: Context, val reelList : ArrayList<Reel>) : RecyclerView.Adapter<ReelAdapter.ViewHolder>() {

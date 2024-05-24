@@ -7,6 +7,7 @@ class Reel {
     var time : String? = null
     var uid : String? = null
     var user : User? = null
+    var documentId :String? = null
 
     constructor()
 
@@ -33,5 +34,14 @@ class Reel {
         this.uid = uid
         this.time = time
         this.user = user
+    }
+
+    constructor(reelUrl: String?, caption: String?, uid: String?, time: String?, user: User?, documentId:String?) {
+        this.reelUrl = reelUrl
+        this.caption = caption
+        this.uid = uid
+        this.time = time
+        this.user = user
+        this.documentId = documentId
     }
 }

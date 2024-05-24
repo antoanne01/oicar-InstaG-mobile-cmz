@@ -25,8 +25,6 @@ class ProfileFragment : Fragment() {
 
     private lateinit var binding : FragmentProfileBinding
     private lateinit var viewPagerAdapter: ViewPagerAdapter
-    private lateinit var adapter: MyPostRvAdapter
-    private var postList = mutableListOf<Post>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +36,9 @@ class ProfileFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentProfileBinding.inflate(inflater, container, false)
+
+        val userEmail = arguments?.getString("userEmail")
+        initializeFragments(userEmail)
 
         binding.btnEditProfile.setOnClickListener {
             val intent = Intent(activity, SignUpActivity::class.java)
@@ -52,35 +53,43 @@ class ProfileFragment : Fragment() {
             requireActivity()?.finish()
         }
 
-        viewPagerAdapter = ViewPagerAdapter(requireActivity().supportFragmentManager)
-        viewPagerAdapter.addFragment(MyPostFragment(), "My Post")
-        viewPagerAdapter.addFragment(MyReelsFragment(), "My Reels")
-        binding.viewPager.adapter = viewPagerAdapter
-        binding.tabLayout.setupWithViewPager(binding.viewPager)
-
-
         return binding.root
     }
 
-    private fun navigateToPostDetails(post: Post) {
-        // Navigation logic here
+    private fun initializeFragments(userEmail: String?) {
+        viewPagerAdapter = ViewPagerAdapter(childFragmentManager)
+        viewPagerAdapter.addFragment(MyPostFragment.newInstance(userEmail), "My Post")
+        viewPagerAdapter.addFragment(MyReelsFragment.newInstance(userEmail), "My Reels")
+        binding.viewPager.adapter = viewPagerAdapter
+        binding.tabLayout.setupWithViewPager(binding.viewPager)
     }
-
 
     companion object {
     }
 
     override fun onStart() {
         super.onStart()
-        Firebase.firestore.collection(USER_NODE).document(Firebase.auth.currentUser!!.uid).get()
-            .addOnSuccessListener {
-                val user : User = it.toObject<User>()!!
-                binding.tvName.text = user.username
-                binding.tvBio.text = user.email
+        val userEmail = arguments?.getString("userEmail") ?: Firebase.auth.currentUser?.email
+        fetchUserProfile(userEmail)
+    }
 
-                if(!user.image.isNullOrEmpty()){
-                    Picasso.get().load(user.image).into(binding.profileImage)
+    private fun fetchUserProfile(userEmail: String?) {
+        userEmail?.let {
+            Firebase.firestore.collection(USER_NODE).whereEqualTo("email", it).limit(1).get()
+                .addOnSuccessListener { documents ->
+                    if (documents.documents.isNotEmpty()) {
+                        val user = documents.documents.first().toObject<User>()!!
+                        updateUI(user)
+                    }
                 }
+        }
+    }
+
+    private fun updateUI(user: User) {
+        binding.tvName.text = user.username
+        binding.tvBio.text = user.email
+        if (!user.image.isNullOrEmpty()) {
+            Picasso.get().load(user.image).into(binding.profileImage)
         }
     }
 }

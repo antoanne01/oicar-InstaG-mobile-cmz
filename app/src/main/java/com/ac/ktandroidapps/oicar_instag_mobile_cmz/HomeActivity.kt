@@ -9,9 +9,10 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.ac.ktandroidapps.oicar_instag_mobile_cmz.adapters.MyPostRvAdapter
 import com.ac.ktandroidapps.oicar_instag_mobile_cmz.databinding.ActivityHomeBinding
 
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : AppCompatActivity(){
 
     private lateinit var binding: ActivityHomeBinding
     private lateinit var navController: NavController
@@ -26,32 +27,5 @@ class HomeActivity : AppCompatActivity() {
         navController = findNavController(R.id.nav_host_fragment_activity_home)
         navView.setupWithNavController(navController)
 
-        //handleIntent(intent)
-
-//        if (intent.hasExtra("OPEN_FRAGMENT")) {
-//            val fragmentId = intent.getIntExtra("OPEN_FRAGMENT", -1)
-//            if (fragmentId != -1) {
-//                navController.navigate(fragmentId)
-//                intent.removeExtra("OPEN_FRAGMENT")
-//            }
-//        }
     }
-
-//    override fun onNewIntent(intent: Intent?) {
-//        super.onNewIntent(intent)
-//        if (intent != null) {
-//            setIntent(intent)
-//            handleIntent(intent)
-//        }
-//    }
-//
-//    private fun handleIntent(intent: Intent) {
-//        if (intent.hasExtra("OPEN_FRAGMENT")) {
-//            val fragmentId = intent.getIntExtra("OPEN_FRAGMENT", -1)
-//            if (fragmentId != -1) {
-//                navController.navigate(fragmentId)
-//                intent.removeExtra("OPEN_FRAGMENT")
-//            }
-//        }
-//    }
 }

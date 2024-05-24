@@ -9,18 +9,19 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/materialToolbar2"
+        style="@style/Base.Theme.OicarInstaGmobilecmz"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        style="@style/Base.Theme.OicarInstaGmobilecmz"
-        app:title="InstaG"
-        app:titleMargin="4dp"
-        app:titleMarginStart="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="InstaG"
+        app:titleMargin="4dp"
+        app:titleCentered="true"
+        app:titleMarginStart="30dp"
+        app:titleTextAppearance="@style/ToolbarTitleTextAppearance"/>
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nsvUsersProfileImages"
