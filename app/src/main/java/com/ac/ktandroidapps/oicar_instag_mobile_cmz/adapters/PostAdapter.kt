@@ -50,12 +50,6 @@ class PostAdapter(val context: Context, val postList : ArrayList<Post>) : Recycl
 
             holder.binding.tvCaptionHomePage.text = postList[position].caption
 
-            // LIKE WITHOUT REVERTING
-
-//            holder.binding.ivLike.setOnClickListener {
-//                holder.binding.ivLike.setImageResource(R.drawable.heart_like)
-//            }
-
             holder.binding.ivLike.setOnClickListener {
                 val isLiked = holder.binding.ivLike.tag as? Boolean ?: false
                 if (isLiked){

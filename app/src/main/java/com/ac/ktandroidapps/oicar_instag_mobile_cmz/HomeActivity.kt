@@ -1,8 +1,10 @@
 package com.ac.ktandroidapps.oicar_instag_mobile_cmz
 
+import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -12,6 +14,7 @@ import com.ac.ktandroidapps.oicar_instag_mobile_cmz.databinding.ActivityHomeBind
 class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,9 +23,35 @@ class HomeActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val navView: BottomNavigationView = binding.navView
-
-        val navController = findNavController(R.id.nav_host_fragment_activity_home)
-
+        navController = findNavController(R.id.nav_host_fragment_activity_home)
         navView.setupWithNavController(navController)
+
+        //handleIntent(intent)
+
+//        if (intent.hasExtra("OPEN_FRAGMENT")) {
+//            val fragmentId = intent.getIntExtra("OPEN_FRAGMENT", -1)
+//            if (fragmentId != -1) {
+//                navController.navigate(fragmentId)
+//                intent.removeExtra("OPEN_FRAGMENT")
+//            }
+//        }
     }
+
+//    override fun onNewIntent(intent: Intent?) {
+//        super.onNewIntent(intent)
+//        if (intent != null) {
+//            setIntent(intent)
+//            handleIntent(intent)
+//        }
+//    }
+//
+//    private fun handleIntent(intent: Intent) {
+//        if (intent.hasExtra("OPEN_FRAGMENT")) {
+//            val fragmentId = intent.getIntExtra("OPEN_FRAGMENT", -1)
+//            if (fragmentId != -1) {
+//                navController.navigate(fragmentId)
+//                intent.removeExtra("OPEN_FRAGMENT")
+//            }
+//        }
+//    }
 }

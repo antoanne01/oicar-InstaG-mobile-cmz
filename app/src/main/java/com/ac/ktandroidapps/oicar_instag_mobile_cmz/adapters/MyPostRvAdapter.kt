@@ -22,6 +22,7 @@ class MyPostRvAdapter(var context: Context, var postList: List<Post>) : Recycler
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
         Picasso.get().load(postList[position].postUrl).into(holder.binding.ivPostImage)
     }
 }

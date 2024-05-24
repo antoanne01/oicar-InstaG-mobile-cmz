@@ -7,9 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ac.ktandroidapps.oicar_instag_mobile_cmz.R
+import com.ac.ktandroidapps.oicar_instag_mobile_cmz.SettingsActivity
 import com.ac.ktandroidapps.oicar_instag_mobile_cmz.SignUpActivity
+import com.ac.ktandroidapps.oicar_instag_mobile_cmz.adapters.MyPostRvAdapter
 import com.ac.ktandroidapps.oicar_instag_mobile_cmz.adapters.ViewPagerAdapter
 import com.ac.ktandroidapps.oicar_instag_mobile_cmz.databinding.FragmentProfileBinding
+import com.ac.ktandroidapps.oicar_instag_mobile_cmz.model.Post
 import com.ac.ktandroidapps.oicar_instag_mobile_cmz.model.User
 import com.ac.ktandroidapps.oicar_instag_mobile_cmz.utils.USER_NODE
 import com.google.firebase.Firebase
@@ -22,6 +25,9 @@ class ProfileFragment : Fragment() {
 
     private lateinit var binding : FragmentProfileBinding
     private lateinit var viewPagerAdapter: ViewPagerAdapter
+    private lateinit var adapter: MyPostRvAdapter
+    private var postList = mutableListOf<Post>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -40,6 +46,12 @@ class ProfileFragment : Fragment() {
             activity?.finish()
         }
 
+        binding.btnSettings.setOnClickListener {
+            val intent = Intent(requireActivity(), SettingsActivity::class.java)
+            startActivity(intent)
+            requireActivity()?.finish()
+        }
+
         viewPagerAdapter = ViewPagerAdapter(requireActivity().supportFragmentManager)
         viewPagerAdapter.addFragment(MyPostFragment(), "My Post")
         viewPagerAdapter.addFragment(MyReelsFragment(), "My Reels")
@@ -49,6 +61,11 @@ class ProfileFragment : Fragment() {
 
         return binding.root
     }
+
+    private fun navigateToPostDetails(post: Post) {
+        // Navigation logic here
+    }
+
 
     companion object {
     }

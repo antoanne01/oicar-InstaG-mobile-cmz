@@ -5,14 +5,23 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import com.ac.ktandroidapps.oicar_instag_mobile_cmz.data.LoginInterface
 import com.ac.ktandroidapps.oicar_instag_mobile_cmz.databinding.ActivityLoginBinding
 import com.ac.ktandroidapps.oicar_instag_mobile_cmz.model.User
 import com.ac.ktandroidapps.oicar_instag_mobile_cmz.utils.USER_NODE
+import com.google.android.gms.tasks.Task
 import com.google.firebase.Firebase
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.firestore
 import org.mindrot.jbcrypt.BCrypt
+
+//class LoginActivity(private val firebaseAuth: FirebaseAuth) : LoginInterface {
+//    override fun signInWithEmailAndPassword(email: String, pass: String): Task<AuthResult> {
+//
+//        return firebaseAuth.signInWithEmailAndPassword(email, pass)
+//    }
+//}
 
 class LoginActivity : AppCompatActivity() {
 

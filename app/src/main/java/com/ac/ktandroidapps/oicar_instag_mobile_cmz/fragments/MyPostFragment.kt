@@ -1,6 +1,7 @@
 package com.ac.ktandroidapps.oicar_instag_mobile_cmz.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -17,9 +18,12 @@ import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.toObject
 
-class MyPostFragment : Fragment() {
+class MyPostFragment : Fragment(){
 
     private lateinit var binding : FragmentMyPostBinding
+
+    private lateinit var adapter: MyPostRvAdapter
+    private var postList = mutableListOf<Post>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +57,6 @@ class MyPostFragment : Fragment() {
 
         return binding.root
     }
-
     companion object {
 
     }

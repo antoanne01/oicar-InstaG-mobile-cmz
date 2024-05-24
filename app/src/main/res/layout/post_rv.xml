@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="@dimen/_8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -73,8 +74,8 @@
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_marginStart="16dp"
-                android:clickable="true"
                 android:layout_marginTop="8dp"
+                android:clickable="true"
                 android:src="@drawable/like"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -84,21 +85,10 @@
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_marginStart="24dp"
-                android:clickable="true"
                 android:layout_marginTop="8dp"
+                android:clickable="true"
                 android:src="@drawable/message"
                 app:layout_constraintStart_toEndOf="@+id/ivLike"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/ivSave"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginTop="8dp"
-                android:clickable="true"
-                android:layout_marginEnd="16dp"
-                android:src="@drawable/save"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 

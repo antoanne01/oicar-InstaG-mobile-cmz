@@ -122,18 +122,6 @@ class SignUpActivity : AppCompatActivity() {
                                         }
                                     }
                                 }
-
-//                                Toast.makeText(this@SignUpActivity,
-//                                    "Successfull registration", Toast.LENGTH_SHORT).show()
-//
-//                                val user = User(username, email)
-//
-//                                firestore.collection(USER_NODE)
-//                                    .document(Firebase.auth.currentUser!!.uid).set(user)
-//                                    .addOnSuccessListener {
-//                                        startActivity(Intent(this@SignUpActivity, HomeActivity::class.java))
-//                                        finish()
-//                                    }
                             }
                             else{
                                 Toast.makeText(this@SignUpActivity, "Registration failed", Toast.LENGTH_SHORT).show()

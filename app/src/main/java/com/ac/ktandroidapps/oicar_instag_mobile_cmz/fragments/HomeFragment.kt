@@ -10,11 +10,14 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ac.ktandroidapps.oicar_instag_mobile_cmz.R
+import com.ac.ktandroidapps.oicar_instag_mobile_cmz.adapters.FriendsAdapter
 import com.ac.ktandroidapps.oicar_instag_mobile_cmz.adapters.PostAdapter
 import com.ac.ktandroidapps.oicar_instag_mobile_cmz.databinding.FragmentHomeBinding
 import com.ac.ktandroidapps.oicar_instag_mobile_cmz.model.Post
 import com.ac.ktandroidapps.oicar_instag_mobile_cmz.model.User
+import com.ac.ktandroidapps.oicar_instag_mobile_cmz.utils.FOLLOW
 import com.ac.ktandroidapps.oicar_instag_mobile_cmz.utils.POST
+import com.ac.ktandroidapps.oicar_instag_mobile_cmz.utils.USER_NODE
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
@@ -26,6 +29,9 @@ class HomeFragment : Fragment() {
     private lateinit var adapter : PostAdapter
     private var postList = ArrayList<Post>()
 
+    private var friendsList = ArrayList<User>()
+    private lateinit var friendsAdapter : FriendsAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -35,10 +41,18 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        fetchFriendsData()
+
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         adapter = PostAdapter(requireContext(), postList)
         binding.rvHomePosts.layoutManager = LinearLayoutManager(requireContext())
         binding.rvHomePosts.adapter = adapter
+
+        friendsAdapter = FriendsAdapter(requireContext(), friendsList)
+        binding.rvFriendsList.apply {
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            adapter = friendsAdapter
+        }
 
         setHasOptionsMenu(true)
         (requireActivity() as AppCompatActivity).setSupportActionBar(binding.materialToolbar2)
@@ -55,6 +69,20 @@ class HomeFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    private fun fetchFriendsData() {
+        var currentUserId = Firebase.auth.currentUser?.uid
+
+        Firebase.firestore.collection(USER_NODE).document(currentUserId!!)
+            .collection(FOLLOW).get().addOnSuccessListener {documents ->
+                friendsList.clear()
+                for(document in documents){
+                    val user = document.toObject<User>()
+                    friendsList.add(user)
+                }
+                friendsAdapter.notifyDataSetChanged()
+            }
     }
 
     companion object {
