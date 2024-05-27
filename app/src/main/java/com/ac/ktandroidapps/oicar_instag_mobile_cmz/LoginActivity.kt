@@ -1,5 +1,6 @@
 package com.ac.ktandroidapps.oicar_instag_mobile_cmz
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -27,6 +28,7 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
     private val firebaseAuth : FirebaseAuth by lazy { FirebaseAuth.getInstance() }
+    //private val firebaseAuth get() = FirebaseAuthProvider.firebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -45,6 +47,7 @@ class LoginActivity : AppCompatActivity() {
                     .addOnCompleteListener {
                         if(it.isSuccessful){
                             if(firebaseAuth.currentUser!!.isEmailVerified){
+                                Log.d("LoginActivity", "User is verified, starting HomeActivity")
                                 startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
                                 finish()
                             }

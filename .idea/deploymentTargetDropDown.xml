@@ -2,7 +2,22 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="LoginActivityTest">
+        <State />
+      </entry>
+      <entry key="LoginIntegrationTest">
+        <State />
+      </entry>
+      <entry key="MainActivity">
+        <State />
+      </entry>
       <entry key="app">
+        <State />
+      </entry>
+      <entry key="testLoginSuccess()">
+        <State />
+      </entry>
+      <entry key="whenInputAreNotNull()">
         <State />
       </entry>
     </value>
